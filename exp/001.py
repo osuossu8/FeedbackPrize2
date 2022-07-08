@@ -91,12 +91,17 @@ class CFG:
     num_workers = 3
     lr = 2e-5
     weigth_decay = 0.01
-    epochs = 1 # 4
+    epochs = 4
     n_fold = 4
     trn_fold = [i for i in range(n_fold)]
     train = True 
     num_warmup_steps = 0
     num_cycles=0.5
+    debug = True
+
+if CFG.debug:
+    CFG.epochs = 1
+    CFG.print_freq = 10
 
 
 import os
@@ -162,6 +167,11 @@ train.to_csv('input/train_fold.csv', index=False)
 """
 train = pd.read_csv('input/train_fold.csv')
 print(train.fold.value_counts())
+
+if CFG.debug:
+    print(train.groupby('fold').size())
+    train = train.sample(n=1000, random_state=0).reset_index(drop=True)
+    print(train.groupby('fold').size())
 
 
 class FeedBackDataset(Dataset):
@@ -419,6 +429,7 @@ def train_one_epoch(model, optimizer, scheduler, dataloader, device, epoch):
         scaler.scale(loss).backward()
         if (step +1) % CFG.n_accumulate == 0:
             scaler.step(optimizer)
+            scaler.update()
             optimizer.zero_grad()
             if scheduler is not None:
                 scheduler.step()
