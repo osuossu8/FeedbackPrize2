@@ -40,6 +40,7 @@ from torch.nn import Parameter
 import torch.nn.functional as F
 from torch.optim import Adam, SGD, AdamW
 from torch.utils.data import DataLoader, Dataset
+from torch.cuda.amp import autocast, GradScaler
 
 import transformers
 import datasets, transformers
@@ -109,11 +110,6 @@ set_seed(CFG.seed)
 device = set_device()
 LOGGER = init_logger(log_file='log/' + f"{CFG.EXP_ID}.log")
 
-
-print('load data')
-train = pd.read_csv('input/train.csv')
-train['essay_text']  = train['essay_id'].progress_apply(lambda x: get_essay(x, is_train=True))
-
 tokenizer = AutoTokenizer.from_pretrained(CFG.model)
 CFG.tokenizer = tokenizer
 
@@ -145,6 +141,11 @@ def resolve_encodings_and_normalize(text: str) -> str:
     return text
 
 
+print('load data')
+"""
+train = pd.read_csv('input/train.csv')
+train['essay_text']  = train['essay_id'].progress_apply(lambda x: get_essay(x, is_train=True))
+
 train['discourse_text'] = train['discourse_text'].progress_apply(lambda x : resolve_encodings_and_normalize(x))
 train['essay_text'] = train['essay_text'].progress_apply(lambda x : resolve_encodings_and_normalize(x))
 
@@ -158,6 +159,8 @@ train['label'] = train['discourse_effectiveness'].map({'Ineffective':0, 'Adequat
 for i, (_, val_) in enumerate(skf.split(train, train['label'], groups=train['essay_id'])):
     train.loc[val_, 'fold'] = int(i)
 train.to_csv('input/train_fold.csv', index=False)
+"""
+train = pd.read_csv('input/train_fold.csv')
 print(train.fold.value_counts())
 
 
@@ -219,7 +222,8 @@ class Collate:
 
         return output
 
-collate_fn = Collate(CFG.tokenizer, isTrain=True)
+#collate_fn = Collate(CFG.tokenizer, isTrain=True)
+collate_fn = DataCollatorWithPadding(tokenizer=CFG.tokenizer)
 
 
 class MeanPooling(nn.Module):
@@ -360,11 +364,11 @@ class FeedBackModel(nn.Module):
         logits5 = self.output(self.dropout5(sequence_output))
         logits = (logits1 + logits2 + logits3 + logits4 + logits5) / 5
 
-        if targets is not None:
-            metric = self.monitor_metrics(logits, targets)
-            return logits, metric
+        #if targets is not None:
+        #    metric = self.monitor_metrics(logits, targets)
+        #    return logits, metric
 
-        return logits, 0.
+        return logits#, 0.
 
 
 def asMinutes(s):
@@ -392,6 +396,7 @@ def get_scheduler(cfg, optimizer, num_train_steps):
 
 def train_one_epoch(model, optimizer, scheduler, dataloader, device, epoch):
     model.train()
+    scaler = GradScaler(enabled=CFG.apex)
 
     dataset_size = 0
     running_loss = 0
@@ -405,15 +410,15 @@ def train_one_epoch(model, optimizer, scheduler, dataloader, device, epoch):
 
         batch_size = ids.size(0)
 
-        outputs = model(ids, mask)
-        loss = criterion(outputs, targets)
+        with autocast(enabled=CFG.apex):
+            outputs = model(ids, mask)
+            loss = criterion(outputs, targets)
 
         #accumulate
         loss = loss / CFG.n_accumulate
-        loss.backward()
+        scaler.scale(loss).backward()
         if (step +1) % CFG.n_accumulate == 0:
-            optimizer.step()
-
+            scaler.step(optimizer)
             optimizer.zero_grad()
             if scheduler is not None:
                 scheduler.step()
