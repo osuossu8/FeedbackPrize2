@@ -157,7 +157,7 @@ train['fold'] = -1
 train['label'] = train['discourse_effectiveness'].map({'Ineffective':0, 'Adequate':1, 'Effective':2})
 for i, (_, val_) in enumerate(skf.split(train, train['label'], groups=train['essay_id'])):
     train.loc[val_, 'fold'] = int(i)
-train.to_csv('input/train_fold.csv'), index=False
+train.to_csv('input/train_fold.csv', index=False)
 print(train.fold.value_counts())
 
 
