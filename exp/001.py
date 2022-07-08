@@ -56,6 +56,9 @@ from transformers import get_linear_schedule_with_warmup, get_cosine_schedule_wi
 from src.machine_learning_util import set_seed, set_device, init_logger, AverageMeter, to_pickle, unpickle
 
 
+INPUT_DIR = 'input/'
+
+
 def get_essay(essay_id, is_train=True):
     parent_path = INPUT_DIR + 'train' if is_train else INPUT_DIR + 'test'
     essay_path = os.path.join(parent_path, f"{essay_id}.txt")
@@ -109,7 +112,7 @@ LOGGER = init_logger(log_file='log/' + f"{CFG.EXP_ID}.log")
 
 print('load data')
 train = pd.read_csv('input/train.csv')
-train['essay_text']  = train['essay_id'].progress_apply(lambda x: get_essay(x, is_train=False))
+train['essay_text']  = train['essay_id'].progress_apply(lambda x: get_essay(x, is_train=True))
 
 tokenizer = AutoTokenizer.from_pretrained(CFG.model)
 CFG.tokenizer = tokenizer
@@ -147,14 +150,14 @@ train['essay_text'] = train['essay_text'].progress_apply(lambda x : resolve_enco
 
 SEP = tokenizer.sep_token
 train['text'] = train['discourse_type'] + ' ' + train['discourse_text'] + SEP + train['essay_text']
-#train['label'] = np.nan
-display(train.head())
+print(train.head())
 
 skf = StratifiedGroupKFold(n_splits=CFG.n_splits) # , shuffle=True, random_state=CFG.seed)
 train['fold'] = -1
 train['label'] = train['discourse_effectiveness'].map({'Ineffective':0, 'Adequate':1, 'Effective':2})
 for i, (_, val_) in enumerate(skf.split(train, train['label'], groups=train['essay_id'])):
     train.loc[val_, 'fold'] = int(i)
+train.to_csv('input/train_fold.csv'), index=False
 print(train.fold.value_counts())
 
 
@@ -282,25 +285,13 @@ class WeightedLayerPooling(nn.Module):
 # Model
 # ====================================================
 from torch.cuda.amp import autocast
-class CustomModel(nn.Module):
-    def __init__(self, cfg, config_path=None, pretrained=False):
-        super().__init__()
-        self.cfg = cfg
-        if config_path is None:
-            self.config = AutoConfig.from_pretrained(cfg.model, output_hidden_states=True)
-        else:
-            self.config = torch.load(config_path)
+class FeedBackModel(nn.Module):
+    def __init__(self, model_name):
+        super(FeedBackModel, self).__init__()
 
-        if pretrained:
-            self.model = AutoModel.from_pretrained(cfg.model, config=self.config)
-        else:
-            self.model = AutoModel.from_config(self.config)
-
-        # gradient checkpointing
-        if self.cfg.gradient_checkpoint:
-            self.model.gradient_checkpointing_enable()
-            print(f"Gradient Checkpointing: {self.model.is_gradient_checkpointing}")
-
+        self.cfg = CFG
+        self.config = AutoConfig.from_pretrained(model_name)
+        self.model = AutoModel.from_pretrained(model_name, config=self.config)
 
         # self.pooler = MeanPooling()
 
@@ -317,9 +308,7 @@ class CustomModel(nn.Module):
 
         self.output = nn.Sequential(
             nn.Linear(self.config.hidden_size, self.cfg.target_size)
-            # nn.Linear(256, self.cfg.target_size)
         )
-
 
 
     def loss(self, outputs, targets):
@@ -329,8 +318,6 @@ class CustomModel(nn.Module):
 
     def monitor_metrics(self, outputs, targets):
         device = targets.get_device()
-        # print(outputs)
-        # print(targets)
         mll = log_loss(
             targets.cpu().detach().numpy(),
             softmax(outputs.cpu().detach().numpy()),
