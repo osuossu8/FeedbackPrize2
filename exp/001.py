@@ -30,7 +30,7 @@ from pathlib import Path
 from typing import List
 from typing import Optional
 from sklearn import metrics
-from sklearn.metrics import roc_auc_score, accuracy_score, f1_score
+from sklearn.metrics import log_loss, roc_auc_score, accuracy_score, f1_score
 from sklearn.model_selection import StratifiedGroupKFold, StratifiedKFold, GroupKFold, KFold
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder, StandardScaler
 
@@ -97,7 +97,7 @@ class CFG:
     train = True 
     num_warmup_steps = 0
     num_cycles=0.5
-    debug = True
+    debug = False # True
 
 if CFG.debug:
     CFG.epochs = 1
@@ -539,11 +539,6 @@ def train_loop(fold):
 
         LOGGER.info(f'Epoch {epoch+1} - avg_train_loss: {train_epoch_loss:.4f}  avg_val_loss: {valid_epoch_loss:.4f}  time: {elapsed:.0f}s')
         LOGGER.info(f'Epoch {epoch+1} - Score: {score:.4f}')
-        if CFG.wandb:
-            wandb.log({f"[fold{fold}] epoch": epoch+1,
-                       f"[fold{fold}] avg_train_loss": train_epoch_loss,
-                       f"[fold{fold}] avg_val_loss": valid_epoch_loss,
-                       f"[fold{fold}] score": score})
 
         if score < best_score:
             best_score = score
