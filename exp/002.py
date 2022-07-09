@@ -88,7 +88,7 @@ class CFG:
     eval_freq = 1200
     min_lr=1e-6
     scheduler = 'cosine'
-    batch_size = 16 # 8
+    batch_size = 8 # 16 # 8
     num_workers = 3
     lr = 2e-5
     weigth_decay = 0.01
@@ -103,7 +103,7 @@ class CFG:
 if CFG.debug:
     CFG.epochs = 1
     CFG.print_freq = 10
-    CFG.eval_freq = 5
+    CFG.eval_freq = 45
 
 import os
 
@@ -405,7 +405,7 @@ def get_scheduler(cfg, optimizer, num_train_steps):
         )
     return scheduler
 
-def train_one_epoch(model, optimizer, scheduler, dataloader, valid_loader, device, epoch, best_score):
+def train_one_epoch(model, optimizer, scheduler, dataloader, valid_loader, device, epoch, best_score, valid_labels):
     model.train()
     scaler = GradScaler(enabled=CFG.apex)
 
@@ -448,7 +448,7 @@ def train_one_epoch(model, optimizer, scheduler, dataloader, valid_loader, devic
                           remain=timeSince(start, float(step+1)/len(dataloader))))
 
 
-        if step % CFG.eval_freq == 0 :
+        if (step > 0) & (step % CFG.eval_freq == 0) :
 
             valid_epoch_loss, pred = valid_one_epoch(model, valid_loader, device, epoch)
 
@@ -548,7 +548,7 @@ def train_loop(fold):
     for epoch in range(CFG.epochs):
         start_time = time.time()
 
-        train_epoch_loss, valid_epoch_loss, pred, best_score = train_one_epoch(model, optimizer, scheduler, train_loader, valid_loader, device, epoch, best_score)
+        train_epoch_loss, valid_epoch_loss, pred, best_score = train_one_epoch(model, optimizer, scheduler, train_loader, valid_loader, device, epoch, best_score, valid_labels)
         # valid_epoch_loss, pred = valid_one_epoch(model, valid_loader, device, epoch)
 
         score = get_score(pred, valid_labels)
