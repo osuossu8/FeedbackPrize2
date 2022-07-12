@@ -336,14 +336,15 @@ class FeedBackModel(nn.Module):
             nn.Linear(self.config.hidden_size, self.cfg.target_size)
         )
 
+
         # Freeze
         if self.cfg.freezing:
-            freeze(self.model.transformer.embeddings)
-            freeze(self.model.transformer.encoder.layer[:2])
+            freeze(self.model.embeddings)
+            freeze(self.model.encoder.layer[:2])
 
         # Gradient Checkpointing
         if self.cfg.gradient_checkpoint:
-            self.model.transformer.gradient_checkpointing_enable() 
+            self.model.gradient_checkpointing_enable() 
 
 
     def loss(self, outputs, targets):
