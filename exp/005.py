@@ -90,7 +90,7 @@ class CFG:
     scheduler = 'cosine'
     batch_size = 8 # 16 # 8
     num_workers = 3
-    lr = 2e-5
+    lr = 3e-6 # 2e-5
     weigth_decay = 0.01
     epochs = 4 # 5 # 4
     n_fold = 4
@@ -343,8 +343,8 @@ class FeedBackModel(nn.Module):
             freeze(self.model.encoder.layer[:2])
 
         # Gradient Checkpointing
-        if self.cfg.gradient_checkpoint:
-            self.model.gradient_checkpointing_enable() 
+        #if self.cfg.gradient_checkpoint:
+        #    self.model.gradient_checkpointing_enable() 
 
 
     def loss(self, outputs, targets):
@@ -549,7 +549,7 @@ def train_loop(fold):
                               drop_last=True)
 
     valid_loader = DataLoader(validDataset,
-                              batch_size = CFG.batch_size,
+                              batch_size = CFG.batch_size * 2,
                               shuffle=False,
                               collate_fn = collate_fn,
                               num_workers = CFG.num_workers,
