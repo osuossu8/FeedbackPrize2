@@ -35,6 +35,7 @@ MODEL_TYPES = tuple(conf.model_type for conf in MODEL_CONFIG_CLASSES)
 # from pprint import pprint
 # pprint(MODEL_TYPES, width=3, compact=True)
 
+"""
 import pandas as pd
 
 train = pd.read_csv('input/train_fold.csv')
@@ -45,6 +46,7 @@ print(mlm_data.shape, mlm_data_val.shape)
 
 mlm_data.to_csv('input/mlm_data.csv', index=False)
 mlm_data_val.to_csv('input/mlm_data_val.csv', index=False)
+"""
 
 
 class TrainConfig:
