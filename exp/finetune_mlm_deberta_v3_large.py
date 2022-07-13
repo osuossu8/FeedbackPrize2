@@ -56,8 +56,8 @@ class TrainConfig:
     config_name= 'microsoft/deberta-v3-large'
     tokenizer_name= 'microsoft/deberta-v3-large'
     use_slow_tokenizer= True
-    per_device_train_batch_size= 4 # 8
-    per_device_eval_batch_size= 8
+    per_device_train_batch_size=4#8
+    per_device_eval_batch_size=4#16
     learning_rate= 5e-5
     weight_decay= 0.0
     num_train_epochs= 2 # 1 # change to 5
@@ -68,7 +68,7 @@ class TrainConfig:
     output_dir= 'itpt/deberta_v3_large'
     seed= 2021
     model_type= 'deberta-v3-large'
-    max_seq_length= None
+    max_seq_length= 512 # None
     line_by_line= False
     preprocessing_num_workers= 4
     overwrite_cache= True
