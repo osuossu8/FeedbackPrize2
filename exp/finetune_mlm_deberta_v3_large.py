@@ -35,18 +35,21 @@ MODEL_TYPES = tuple(conf.model_type for conf in MODEL_CONFIG_CLASSES)
 # from pprint import pprint
 # pprint(MODEL_TYPES, width=3, compact=True)
 
+import pandas as pd
 
 train = pd.read_csv('input/train_fold.csv')
 mlm_data = train[train.fold != 0].reset_index(drop=True)[['text']]
 mlm_data_val = train[train.fold == 0].reset_index(drop=True)[['text']]
+
+print(mlm_data.shape, mlm_data_val.shape)
 
 mlm_data.to_csv('input/mlm_data.csv', index=False)
 mlm_data_val.to_csv('input/mlm_data_val.csv', index=False)
 
 
 class TrainConfig:
-    train_file= 'inputs/mlm_data_aug.csv'
-    validation_file = 'inputs/mlm_data_aug.csv'
+    train_file= 'input/mlm_data.csv'
+    validation_file = 'input/mlm_data_val.csv'
     validation_split_percentage= 5
     pad_to_max_length= True
     model_name_or_path= 'microsoft/deberta-v3-large'
