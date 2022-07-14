@@ -102,6 +102,8 @@ class CFG:
     freezing = True
     gradient_checkpoint = True
     # itpt_path = 'itpt/deberta_v3_large'
+    reinit_layers = 3
+
 
 if CFG.debug:
     CFG.epochs = 1
@@ -318,9 +320,9 @@ class FeedBackModel(nn.Module):
 
         self.cfg = CFG
         self.config = AutoConfig.from_pretrained(model_name)
-        self.config.hidden_dropout_prob = 0
-        self.config.attention_probs_dropout_prob = 0
-        print(self.config)
+        #self.config.hidden_dropout_prob = 0
+        #self.config.attention_probs_dropout_prob = 0
+        #print(self.config)
         self.model = AutoModel.from_pretrained(model_name, config=self.config)
 
         # self.pooler = MeanPooling()
@@ -350,11 +352,11 @@ class FeedBackModel(nn.Module):
         #if self.cfg.gradient_checkpoint:
         #    self.model.gradient_checkpointing_enable() 
 
-        #if self.cfg.reinit_layers > 0:
-        #    layers = self.model.encoder.layer[-self.cfg.reinit_layers:]
-        #    for layer in layers:
-        #        for module in layer.modules():
-        #            _init_weights(module)
+        if self.cfg.reinit_layers > 0:
+            layers = self.model.encoder.layer[-self.cfg.reinit_layers:]
+            for layer in layers:
+                for module in layer.modules():
+                    _init_weights(module)
 
     def loss(self, outputs, targets):
         loss_fct = nn.CrossEntropyLoss()
