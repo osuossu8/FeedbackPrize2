@@ -329,8 +329,7 @@ class FeedBackModel(nn.Module):
                               dropout=self.config.hidden_dropout_prob, batch_first=True,
                               bidirectional=True)
 
-        self.dropout = nn.Dropout(0.0)
-
+        self.dropout = nn.Dropout(0.2)
         self.dropout1 = nn.Dropout(0.1)
         self.dropout2 = nn.Dropout(0.2)
         self.dropout3 = nn.Dropout(0.3)
@@ -351,6 +350,11 @@ class FeedBackModel(nn.Module):
         #if self.cfg.gradient_checkpoint:
         #    self.model.gradient_checkpointing_enable() 
 
+        #if self.cfg.reinit_layers > 0:
+        #    layers = self.model.encoder.layer[-self.cfg.reinit_layers:]
+        #    for layer in layers:
+        #        for module in layer.modules():
+        #            _init_weights(module)
 
     def loss(self, outputs, targets):
         loss_fct = nn.CrossEntropyLoss()
@@ -394,14 +398,12 @@ class FeedBackModel(nn.Module):
 
 
         # Main task
-        #logits1 = self.output(self.dropout1(sequence_output))
-        #logits2 = self.output(self.dropout2(sequence_output))
-        #logits3 = self.output(self.dropout3(sequence_output))
-        #logits4 = self.output(self.dropout4(sequence_output))
-        #logits5 = self.output(self.dropout5(sequence_output))
-        #logits = (logits1 + logits2 + logits3 + logits4 + logits5) / 5
-
-        logits = self.output(self.dropout(sequence_output))
+        logits1 = self.output(self.dropout1(sequence_output))
+        logits2 = self.output(self.dropout2(sequence_output))
+        logits3 = self.output(self.dropout3(sequence_output))
+        logits4 = self.output(self.dropout4(sequence_output))
+        logits5 = self.output(self.dropout5(sequence_output))
+        logits = (logits1 + logits2 + logits3 + logits4 + logits5) / 5
 
         #if targets is not None:
         #    metric = self.monitor_metrics(logits, targets)
