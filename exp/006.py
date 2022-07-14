@@ -90,9 +90,9 @@ class CFG:
     scheduler = 'cosine'
     batch_size = 8 # 16 # 8
     num_workers = 3
-    lr = 3e-6 # 2e-5
+    lr = 3e-6
     weigth_decay = 0.01
-    epochs = 2 # 4 # 5 # 4
+    epochs = 4 # 5 # 4
     n_fold = 4
     trn_fold = [i for i in range(n_fold)]
     train = True 
@@ -101,7 +101,7 @@ class CFG:
     debug = False # True
     freezing = True
     gradient_checkpoint = True
-    itpt_path = 'itpt/deberta_v3_large'
+    # itpt_path = 'itpt/deberta_v3_large'
 
 if CFG.debug:
     CFG.epochs = 1
@@ -326,7 +326,8 @@ class FeedBackModel(nn.Module):
                               dropout=self.config.hidden_dropout_prob, batch_first=True,
                               bidirectional=True)
 
-        self.dropout = nn.Dropout(0.2)
+        self.dropout = nn.Dropout(0.0)
+
         self.dropout1 = nn.Dropout(0.1)
         self.dropout2 = nn.Dropout(0.2)
         self.dropout3 = nn.Dropout(0.3)
@@ -390,12 +391,14 @@ class FeedBackModel(nn.Module):
 
 
         # Main task
-        logits1 = self.output(self.dropout1(sequence_output))
-        logits2 = self.output(self.dropout2(sequence_output))
-        logits3 = self.output(self.dropout3(sequence_output))
-        logits4 = self.output(self.dropout4(sequence_output))
-        logits5 = self.output(self.dropout5(sequence_output))
-        logits = (logits1 + logits2 + logits3 + logits4 + logits5) / 5
+        #logits1 = self.output(self.dropout1(sequence_output))
+        #logits2 = self.output(self.dropout2(sequence_output))
+        #logits3 = self.output(self.dropout3(sequence_output))
+        #logits4 = self.output(self.dropout4(sequence_output))
+        #logits5 = self.output(self.dropout5(sequence_output))
+        #logits = (logits1 + logits2 + logits3 + logits4 + logits5) / 5
+
+        logits = self.output(self.dropout(sequence_output))
 
         #if targets is not None:
         #    metric = self.monitor_metrics(logits, targets)
@@ -557,11 +560,11 @@ def train_loop(fold):
                               pin_memory = True,
                               drop_last=False)
 
-    if CFG.itpt_path:
-        model = FeedBackModel(CFG.itpt_path)
-        print('load itpt model')
-    else:
-        model = FeedBackModel(CFG.model)
+    #if CFG.itpt_path:
+    #    model = FeedBackModel(CFG.itpt_path)
+    #    print('load itpt model')
+    #else:
+    model = FeedBackModel(CFG.model)
     torch.save(model.config, OUTPUT_DIR+'config.pth')
     model.to(device)
     optimizer = AdamW(model.parameters(), lr=CFG.lr, weight_decay=CFG.weigth_decay)
