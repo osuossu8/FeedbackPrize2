@@ -81,7 +81,7 @@ class CFG:
     seed = 71
     n_splits = 4
     max_len = 512
-    dropout = 0.2
+    dropout = 0 # 0.2
     target_size=3
     n_accumulate=1
     print_freq = 100
@@ -318,6 +318,9 @@ class FeedBackModel(nn.Module):
 
         self.cfg = CFG
         self.config = AutoConfig.from_pretrained(model_name)
+        self.config.hidden_dropout_prob = 0
+        self.config.attention_probs_dropout_prob = 0
+        print(self.config)
         self.model = AutoModel.from_pretrained(model_name, config=self.config)
 
         # self.pooler = MeanPooling()
