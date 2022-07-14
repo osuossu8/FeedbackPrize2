@@ -356,7 +356,7 @@ class FeedBackModel(nn.Module):
             layers = self.model.encoder.layer[-self.cfg.reinit_layers:]
             for layer in layers:
                 for module in layer.modules():
-                    _init_weights(module)
+                    self._init_weights(module)
 
     def loss(self, outputs, targets):
         loss_fct = nn.CrossEntropyLoss()
