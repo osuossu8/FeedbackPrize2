@@ -103,7 +103,7 @@ class CFG:
     gradient_checkpoint = True
     # itpt_path = 'itpt/deberta_v3_large'
     reinit_layers = 3
-    max_norm = 0.5
+    max_norm = 0.3 # 0.5
 
 
 if CFG.debug:
@@ -584,6 +584,9 @@ def train_loop(fold):
     best_score = 100
 
     for epoch in range(CFG.epochs):
+        if epoch == (CFG.epochs - 2):
+            break
+
         start_time = time.time()
 
         train_epoch_loss, valid_epoch_loss, pred, best_score = train_one_epoch(model, optimizer, scheduler, train_loader, valid_loader, device, epoch, best_score, valid_labels)
