@@ -92,7 +92,7 @@ class CFG:
     num_workers = 3
     lr = 3e-6
     weigth_decay = 0.01
-    epochs = 4 # 5 # 4
+    epochs = 3 # 4 # 5 # 4
     n_fold = 4
     trn_fold = [i for i in range(n_fold)]
     train = True 
