@@ -103,7 +103,7 @@ class CFG:
     gradient_checkpoint = True
     # itpt_path = 'itpt/deberta_v3_large'
     reinit_layers = 3
-    max_norm = 0.3 # 0.5
+    max_norm = 0.5
 
 
 if CFG.debug:
