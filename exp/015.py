@@ -584,7 +584,7 @@ def train_loop(fold):
     best_score = 100
 
     for epoch in range(CFG.epochs):
-        if epoch == (CFG.epochs - 2):
+        if epoch == (CFG.epochs - 3):
             break
 
         start_time = time.time()
