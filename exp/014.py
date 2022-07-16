@@ -85,7 +85,7 @@ class CFG:
     target_size=3
     n_accumulate=1
     print_freq = 100
-    eval_freq = 1000 # 1700
+    eval_freq = 1700
     min_lr=1e-6
     scheduler = 'cosine'
     batch_size = 8 # 16 # 8
@@ -103,7 +103,7 @@ class CFG:
     gradient_checkpoint = True
     # itpt_path = 'itpt/deberta_v3_large'
     reinit_layers = 4 # 3
-    max_norm = 1.0 # 0.5
+    max_norm = 0.8 # 1.0 # 0.5
     early_break_epoch = epochs - 3
 
 
