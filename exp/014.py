@@ -321,8 +321,8 @@ class FeedBackModel(nn.Module):
 
         self.cfg = CFG
         self.config = AutoConfig.from_pretrained(model_name)
-        #self.config.hidden_dropout_prob = 0
-        #self.config.attention_probs_dropout_prob = 0
+        self.config.hidden_dropout_prob = 0
+        self.config.attention_probs_dropout_prob = 0
         #print(self.config)
         self.model = AutoModel.from_pretrained(model_name, config=self.config)
 
@@ -498,7 +498,7 @@ def train_one_epoch(model, optimizer, scheduler, dataloader, valid_loader, devic
                             'predictions': pred},
                             OUTPUT_DIR+f"{CFG.model.replace('/', '-')}_fold{fold}_best.pth")
 
-            # model.train()
+            model.train()
 
     gc.collect()
 
@@ -586,7 +586,7 @@ def train_loop(fold):
     best_score = 100
 
     for epoch in range(CFG.epochs):
-        if epoch == (CFG.epochs - 2):
+        if epoch == (CFG.epochs - 1):
             break
 
         start_time = time.time()
