@@ -85,7 +85,7 @@ class CFG:
     target_size=3
     n_accumulate=1
     print_freq = 100
-    eval_freq = 1700 # 1200
+    eval_freq = 1000 # 1700
     min_lr=1e-6
     scheduler = 'cosine'
     batch_size = 8 # 16 # 8
@@ -104,6 +104,7 @@ class CFG:
     # itpt_path = 'itpt/deberta_v3_large'
     reinit_layers = 4 # 3
     max_norm = 1.0 # 0.5
+    early_break_epoch = CFG.epochs - 3
 
 
 if CFG.debug:
@@ -321,8 +322,8 @@ class FeedBackModel(nn.Module):
 
         self.cfg = CFG
         self.config = AutoConfig.from_pretrained(model_name)
-        #self.config.hidden_dropout_prob = 0
-        #self.config.attention_probs_dropout_prob = 0
+        self.config.hidden_dropout_prob = 0
+        self.config.attention_probs_dropout_prob = 0
         #print(self.config)
         self.model = AutoModel.from_pretrained(model_name, config=self.config)
 
@@ -586,7 +587,7 @@ def train_loop(fold):
     best_score = 100
 
     for epoch in range(CFG.epochs):
-        if epoch == (CFG.epochs - 2):
+        if epoch == early_break_epoch:
             break
 
         start_time = time.time()
