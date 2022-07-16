@@ -381,8 +381,10 @@ class FeedBackModel(nn.Module):
         self.dropout4 = nn.Dropout(0.4)
         self.dropout5 = nn.Dropout(0.5)
 
+        self.fc = nn.Linear(self.config.hidden_size + 128, self.config.hidden_size // 2)
+
         self.output = nn.Sequential(
-            nn.Linear(self.config.hidden_size + 128, self.cfg.target_size)
+            nn.Linear(self.config.hidden_size // 2, self.cfg.target_size)
         )
 
 
@@ -444,6 +446,7 @@ class FeedBackModel(nn.Module):
         linear_feature = self.linear_feature(text_features)
 
         sequence_output = torch.cat([sequence_output, linear_feature], 1)
+        sequence_output = self.fc(sequence_output)
 
         # Main task
         logits1 = self.output(self.dropout1(sequence_output))
