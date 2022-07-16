@@ -329,10 +329,6 @@ class FeedBackModel(nn.Module):
 
         # self.pooler = MeanPooling()
 
-        self.bilstm = nn.LSTM(self.config.hidden_size, (self.config.hidden_size) // 2, num_layers=2,
-                              dropout=self.config.hidden_dropout_prob, batch_first=True,
-                              bidirectional=True)
-
         self.dropout = nn.Dropout(0.2)
         self.dropout1 = nn.Dropout(0.1)
         self.dropout2 = nn.Dropout(0.2)
@@ -341,6 +337,7 @@ class FeedBackModel(nn.Module):
         self.dropout5 = nn.Dropout(0.5)
 
         self.output = nn.Sequential(
+            nn.LayerNorm(self.config.hidden_size),
             nn.Linear(self.config.hidden_size, self.cfg.target_size)
         )
 
@@ -402,12 +399,13 @@ class FeedBackModel(nn.Module):
 
 
         # Main task
-        logits1 = self.output(self.dropout1(sequence_output))
-        logits2 = self.output(self.dropout2(sequence_output))
-        logits3 = self.output(self.dropout3(sequence_output))
-        logits4 = self.output(self.dropout4(sequence_output))
-        logits5 = self.output(self.dropout5(sequence_output))
-        logits = (logits1 + logits2 + logits3 + logits4 + logits5) / 5
+        logits1 = self.output(sequence_output)
+        #logits1 = self.output(self.dropout1(sequence_output))
+        #logits2 = self.output(self.dropout2(sequence_output))
+        #logits3 = self.output(self.dropout3(sequence_output))
+        #logits4 = self.output(self.dropout4(sequence_output))
+        #logits5 = self.output(self.dropout5(sequence_output))
+        #logits = (logits1 + logits2 + logits3 + logits4 + logits5) / 5
 
         #if targets is not None:
         #    metric = self.monitor_metrics(logits, targets)
