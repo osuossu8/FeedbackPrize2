@@ -211,6 +211,9 @@ train['div_discourse_text_num_chars_essay_text_num_chars'] = train['discourse_te
 train['div_discourse_text_num_words_essay_text_num_words'] = train['discourse_text_num_words'] / train['essay_text_num_words']
 train['div_discourse_text_num_unique_words_essay_text_num_unique_words'] = train['discourse_text_num_unique_words'] / train['essay_text_num_unique_words']
 
+scaler = StandardScaler()
+train[CFG.text_features] = scaler.fit_transform(train[CFG.text_features].fillna(-1))
+
 
 class FeedBackDataset(Dataset):
     def __init__(self, df, tokenizer, max_length):
@@ -268,7 +271,7 @@ class Collate:
         # convert to tensors
         output["input_ids"] = torch.tensor(output["input_ids"], dtype=torch.long)
         output["attention_mask"] = torch.tensor(output["attention_mask"], dtype=torch.long)
-        output["text_features"] = torch.tensor(output["text_features"], dtype=torch.float)
+        output["text_features"] = torch.tensor(output["text_features"], dtype=torch.float32)
         if self.isTrain:
             output["target"] = torch.tensor(output["target"], dtype=torch.long)
 
@@ -492,7 +495,7 @@ def train_one_epoch(model, optimizer, scheduler, dataloader, valid_loader, devic
     for step, data in enumerate(dataloader):
         ids = data['input_ids'].to(device, dtype=torch.long)
         mask = data['attention_mask'].to(device, dtype=torch.long)
-        text_features = data['text_features'].to(device, dtype=torch.float)
+        text_features = data['text_features'].to(device, dtype=torch.float32)
         targets = data['target'].to(device, dtype=torch.long)
 
         batch_size = ids.size(0)
@@ -559,7 +562,7 @@ def valid_one_epoch(model, dataloader, device, epoch):
     for step, data in enumerate(dataloader):
         ids = data['input_ids'].to(device, dtype=torch.long)
         mask = data['attention_mask'].to(device, dtype=torch.long)
-        text_features = data['text_features'].to(device, dtype=torch.float)
+        text_features = data['text_features'].to(device, dtype=torch.float32)
         targets = data['target'].to(device, dtype=torch.long)
 
         batch_size = ids.size(0)
