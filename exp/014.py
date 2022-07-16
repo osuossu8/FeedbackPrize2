@@ -399,7 +399,7 @@ class FeedBackModel(nn.Module):
 
 
         # Main task
-        logits1 = self.output(sequence_output)
+        logits = self.output(sequence_output)
         #logits1 = self.output(self.dropout1(sequence_output))
         #logits2 = self.output(self.dropout2(sequence_output))
         #logits3 = self.output(self.dropout3(sequence_output))
