@@ -250,6 +250,7 @@ class Collate:
         output = dict()
         output["input_ids"] = [sample["input_ids"] for sample in batch]
         output["attention_mask"] = [sample["attention_mask"] for sample in batch]
+        output["text_features"] = [sample["text_features"] for sample in batch]
         if self.isTrain:
             output["target"] = [sample["target"] for sample in batch]
 
