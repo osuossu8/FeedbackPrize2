@@ -104,7 +104,7 @@ class CFG:
     # itpt_path = 'itpt/deberta_v3_large'
     reinit_layers = 4 # 3
     max_norm = 1.0 # 0.5
-    early_break_epoch = CFG.epochs - 3
+    early_break_epoch = epochs - 3
 
 
 if CFG.debug:
