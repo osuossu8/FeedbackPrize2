@@ -321,8 +321,8 @@ class FeedBackModel(nn.Module):
 
         self.cfg = CFG
         self.config = AutoConfig.from_pretrained(model_name)
-        self.config.hidden_dropout_prob = 0
-        self.config.attention_probs_dropout_prob = 0
+        #self.config.hidden_dropout_prob = 0
+        #self.config.attention_probs_dropout_prob = 0
         #print(self.config)
         self.model = AutoModel.from_pretrained(model_name, config=self.config)
 
