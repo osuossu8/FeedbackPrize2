@@ -462,7 +462,7 @@ def train_one_epoch(model, optimizer, scheduler, dataloader, valid_loader, devic
         loss = loss / CFG.n_accumulate
         scaler.scale(loss).backward()
         if (step +1) % CFG.n_accumulate == 0:
-            torch.nn.utils.clip_grad_norm_(model.parameters(), CFG.max_norm)
+            # torch.nn.utils.clip_grad_norm_(model.parameters(), CFG.max_norm)
             scaler.step(optimizer)
             scaler.update()
             optimizer.zero_grad()
