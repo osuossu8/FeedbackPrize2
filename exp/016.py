@@ -102,8 +102,8 @@ class CFG:
     freezing = True
     gradient_checkpoint = True
     # itpt_path = 'itpt/deberta_v3_large'
-    reinit_layers = 4 # 3
-    max_norm = 1.5 # 0.5 # 1.0
+    reinit_layers = 6 # 4
+    # max_norm = 2.0 (0.6526) # 1.5 (0.6572) # 0.5 # 1.0
 
 
 if CFG.debug:
