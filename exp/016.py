@@ -102,7 +102,7 @@ class CFG:
     freezing = True
     gradient_checkpoint = True
     # itpt_path = 'itpt/deberta_v3_large'
-    reinit_layers = 5 # 6 # 4
+    reinit_layers = 4
     # max_norm = 2.0 (0.6526) # 1.5 (0.6572) # 0.5 # 1.0
 
 
@@ -328,7 +328,7 @@ class FeedBackModel(nn.Module):
 
         # self.pooler = MeanPooling()
 
-        self.bilstm = nn.LSTM(self.config.hidden_size, (self.config.hidden_size) // 2, num_layers=2,
+        self.bilstm = nn.LSTM(self.config.hidden_size * 2, (self.config.hidden_size) // 2, num_layers=2,
                               dropout=self.config.hidden_dropout_prob, batch_first=True,
                               bidirectional=True)
 
@@ -397,8 +397,12 @@ class FeedBackModel(nn.Module):
 #         sequence_output = self.pooler(all_hidden_states)
 
         # simple CLS
-        sequence_output = transformer_out[0][:, 0, :]
+        # sequence_output = transformer_out[0][:, 0, :]
 
+        x_lstm = torch.cat([transformer_out[1][idx] for idx in [0, -1]], dim=2)
+
+        lstm_out, _ = self.bilstm(x_lstm)
+        sequence_output = lstm_out.mean(dim=1) # bs, 1024
 
         # Main task
         logits1 = self.output(self.dropout1(sequence_output))
@@ -498,7 +502,7 @@ def train_one_epoch(model, optimizer, scheduler, dataloader, valid_loader, devic
                             'predictions': pred},
                             OUTPUT_DIR+f"{CFG.model.replace('/', '-')}_fold{fold}_best.pth")
 
-            # model.train()
+            model.train()
 
     gc.collect()
 
