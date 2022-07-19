@@ -324,6 +324,7 @@ class FeedBackModel(nn.Module):
         #self.config.hidden_dropout_prob = 0
         #self.config.attention_probs_dropout_prob = 0
         #print(self.config)
+        self.config.output_hidden_states=True
         self.model = AutoModel.from_pretrained(model_name, config=self.config)
 
         # self.pooler = MeanPooling()
