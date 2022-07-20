@@ -329,7 +329,7 @@ class FeedBackModel(nn.Module):
 
         # self.pooler = MeanPooling()
 
-        self.bilstm = nn.LSTM(self.config.hidden_size * 2, (self.config.hidden_size) // 2, num_layers=2,
+        self.bilstm = nn.LSTM(self.config.hidden_size, (self.config.hidden_size) // 2, num_layers=1,
                               dropout=self.config.hidden_dropout_prob, batch_first=True,
                               bidirectional=True)
 
@@ -400,9 +400,7 @@ class FeedBackModel(nn.Module):
         # simple CLS
         # sequence_output = transformer_out[0][:, 0, :]
 
-        x_lstm = torch.cat([transformer_out[1][idx] for idx in [0, -1]], dim=2)
-
-        lstm_out, _ = self.bilstm(x_lstm)
+        lstm_out, _ = self.bilstm(transformer_out[1][-1])
         sequence_output = lstm_out.mean(dim=1) # bs, 1024
 
         # Main task
