@@ -370,7 +370,7 @@ class FeedBackModel(nn.Module):
                               bidirectional=True)
 
         self.linear_feature = nn.Sequential(
-            nn.Linear(28, 16),
+            nn.Linear(23, 16),
             nn.LayerNorm(16),
             nn.GELU(),
             nn.Dropout(0.1),
