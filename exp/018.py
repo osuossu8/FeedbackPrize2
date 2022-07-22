@@ -321,8 +321,8 @@ class FeedBackModel(nn.Module):
 
         self.cfg = CFG
         self.config = AutoConfig.from_pretrained(model_name)
-        self.config.hidden_dropout_prob = 0.2
-        self.config.attention_probs_dropout_prob = 0.2
+        #self.config.hidden_dropout_prob = 0.2
+        #self.config.attention_probs_dropout_prob = 0.2
         #print(self.config)
         self.model = AutoModel.from_pretrained(model_name, config=self.config)
 
@@ -343,6 +343,26 @@ class FeedBackModel(nn.Module):
             nn.Linear(self.config.hidden_size, self.cfg.target_size)
         )
 
+        self.head1 = nn.Sequential(
+            nn.LayerNorm(self.config.hidden_size)),
+            nn.Linear(self.config.hidden_size, self.config.hidden_size // 2)
+            nn.GELU(),
+            nn.Linear(self.config.hidden_size // 2, 1)
+        )
+
+        self.head2 = nn.Sequential(
+            nn.LayerNorm(self.config.hidden_size)),
+            nn.Linear(self.config.hidden_size, self.config.hidden_size // 2)
+            nn.GELU(),
+            nn.Linear(self.config.hidden_size // 2, 1)
+        )
+
+        self.head3 = nn.Sequential(
+            nn.LayerNorm(self.config.hidden_size)),
+            nn.Linear(self.config.hidden_size, self.config.hidden_size // 2)
+            nn.GELU(),
+            nn.Linear(self.config.hidden_size // 2, 1)
+        )
 
         # Freeze
         if self.cfg.freezing:
@@ -406,8 +426,14 @@ class FeedBackModel(nn.Module):
         logits3 = self.output(self.dropout3(sequence_output))
         logits4 = self.output(self.dropout4(sequence_output))
         logits5 = self.output(self.dropout5(sequence_output))
-        logits = (logits1 + logits2 + logits3 + logits4 + logits5) / 5
+        logits6 = (logits1 + logits2 + logits3 + logits4 + logits5) / 5
 
+        logits_a = self.head1(sequence_output)
+        logits_b = self.head2(sequence_output)
+        logits_c = self.head3(sequence_output)
+        logits7 = torch.stack([logits_a, logits_b, logits_c], -1)
+
+        logits = (logits6 + logits7)/2
         #if targets is not None:
         #    metric = self.monitor_metrics(logits, targets)
         #    return logits, metric
