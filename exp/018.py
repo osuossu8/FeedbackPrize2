@@ -431,7 +431,7 @@ class FeedBackModel(nn.Module):
         logits_a = self.head1(sequence_output)
         logits_b = self.head2(sequence_output)
         logits_c = self.head3(sequence_output)
-        logits7 = torch.stack([logits_a, logits_b, logits_c], -1)
+        logits7 = torch.cat([logits_a, logits_b, logits_c], -1)
 
         logits = (logits6 + logits7)/2
         #if targets is not None:
