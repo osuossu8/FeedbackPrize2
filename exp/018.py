@@ -344,22 +344,22 @@ class FeedBackModel(nn.Module):
         )
 
         self.head1 = nn.Sequential(
-            nn.LayerNorm(self.config.hidden_size)),
-            nn.Linear(self.config.hidden_size, self.config.hidden_size // 2)
+            nn.LayerNorm(self.config.hidden_size),
+            nn.Linear(self.config.hidden_size, self.config.hidden_size // 2),
             nn.GELU(),
             nn.Linear(self.config.hidden_size // 2, 1)
         )
 
         self.head2 = nn.Sequential(
-            nn.LayerNorm(self.config.hidden_size)),
-            nn.Linear(self.config.hidden_size, self.config.hidden_size // 2)
+            nn.LayerNorm(self.config.hidden_size),
+            nn.Linear(self.config.hidden_size, self.config.hidden_size // 2),
             nn.GELU(),
             nn.Linear(self.config.hidden_size // 2, 1)
         )
 
         self.head3 = nn.Sequential(
-            nn.LayerNorm(self.config.hidden_size)),
-            nn.Linear(self.config.hidden_size, self.config.hidden_size // 2)
+            nn.LayerNorm(self.config.hidden_size),
+            nn.Linear(self.config.hidden_size, self.config.hidden_size // 2),
             nn.GELU(),
             nn.Linear(self.config.hidden_size // 2, 1)
         )
