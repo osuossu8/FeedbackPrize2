@@ -326,38 +326,23 @@ class FeedBackModel(nn.Module):
         #print(self.config)
         self.model = AutoModel.from_pretrained(model_name, config=self.config)
 
-        # self.pooler = MeanPooling()
-
-        self.bilstm = nn.LSTM(self.config.hidden_size, (self.config.hidden_size) // 2, num_layers=2,
-                              dropout=self.config.hidden_dropout_prob, batch_first=True,
-                              bidirectional=True)
-
-        self.dropout = nn.Dropout(0.2)
-        self.dropout1 = nn.Dropout(0.1)
-        self.dropout2 = nn.Dropout(0.2)
-        self.dropout3 = nn.Dropout(0.3)
-        self.dropout4 = nn.Dropout(0.4)
-        self.dropout5 = nn.Dropout(0.5)
-
-        self.output = nn.Sequential(
-            nn.Linear(self.config.hidden_size, self.cfg.target_size)
-        )
+        self.output = nn.Linear(self.config.hidden_size, self.cfg.target_size)
 
 
         # Freeze
-        if self.cfg.freezing:
-            freeze(self.model.embeddings)
-            freeze(self.model.encoder.layer[:2])
+        #if self.cfg.freezing:
+        #    freeze(self.model.embeddings)
+        #    freeze(self.model.encoder.layer[:2])
 
         # Gradient Checkpointing
         #if self.cfg.gradient_checkpoint:
         #    self.model.gradient_checkpointing_enable() 
 
-        if self.cfg.reinit_layers > 0:
-            layers = self.model.encoder.layer[-self.cfg.reinit_layers:]
-            for layer in layers:
-                for module in layer.modules():
-                    self._init_weights(module)
+        #if self.cfg.reinit_layers > 0:
+        #    layers = self.model.encoder.layer[-self.cfg.reinit_layers:]
+        #    for layer in layers:
+        #        for module in layer.modules():
+        #            self._init_weights(module)
 
     def loss(self, outputs, targets):
         loss_fct = nn.CrossEntropyLoss()
@@ -401,12 +386,7 @@ class FeedBackModel(nn.Module):
 
 
         # Main task
-        logits1 = self.output(self.dropout1(sequence_output))
-        logits2 = self.output(self.dropout2(sequence_output))
-        logits3 = self.output(self.dropout3(sequence_output))
-        logits4 = self.output(self.dropout4(sequence_output))
-        logits5 = self.output(self.dropout5(sequence_output))
-        logits = (logits1 + logits2 + logits3 + logits4 + logits5) / 5
+        logits = self.output(sequence_output)
 
         #if targets is not None:
         #    metric = self.monitor_metrics(logits, targets)
