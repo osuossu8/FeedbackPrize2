@@ -347,21 +347,30 @@ class FeedBackModel(nn.Module):
             nn.LayerNorm(self.config.hidden_size),
             nn.Linear(self.config.hidden_size, self.config.hidden_size // 2),
             nn.GELU(),
-            nn.Linear(self.config.hidden_size // 2, 1)
+            nn.LayerNorm(self.config.hidden_size // 2),
+            nn.Linear(self.config.hidden_size // 2, self.config.hidden_size // 4),
+            nn.GELU(),
+            nn.Linear(self.config.hidden_size // 4, 1)
         )
 
         self.head2 = nn.Sequential(
             nn.LayerNorm(self.config.hidden_size),
             nn.Linear(self.config.hidden_size, self.config.hidden_size // 2),
             nn.GELU(),
-            nn.Linear(self.config.hidden_size // 2, 1)
+            nn.LayerNorm(self.config.hidden_size // 2),
+            nn.Linear(self.config.hidden_size // 2, self.config.hidden_size // 4),
+            nn.GELU(),
+            nn.Linear(self.config.hidden_size // 4, 1)
         )
 
         self.head3 = nn.Sequential(
             nn.LayerNorm(self.config.hidden_size),
             nn.Linear(self.config.hidden_size, self.config.hidden_size // 2),
             nn.GELU(),
-            nn.Linear(self.config.hidden_size // 2, 1)
+            nn.LayerNorm(self.config.hidden_size // 2),
+            nn.Linear(self.config.hidden_size // 2, self.config.hidden_size // 4),
+            nn.GELU(),
+            nn.Linear(self.config.hidden_size // 4, 1)
         )
 
         # Freeze
@@ -418,7 +427,6 @@ class FeedBackModel(nn.Module):
 
         # simple CLS
         sequence_output = transformer_out[0][:, 0, :]
-
 
         # Main task
         logits1 = self.output(self.dropout1(sequence_output))
