@@ -85,7 +85,7 @@ class CFG:
     target_size=3
     n_accumulate=1
     print_freq = 100
-    eval_freq = 1700 # 1200
+    eval_freq = 850 # 1700 # 1200
     min_lr=1e-6
     scheduler = 'cosine'
     batch_size = 16 # 8
