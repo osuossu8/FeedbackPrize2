@@ -407,7 +407,7 @@ class FeedBackModel(nn.Module):
         #logits5 = self.output(self.dropout5(sequence_output))
         #logits = (logits1 + logits2 + logits3 + logits4 + logits5) / 5
 
-        logits = self.output(self.ln(sequence_output))
+        logits = self.output(sequence_output)
 
         #if targets is not None:
         #    metric = self.monitor_metrics(logits, targets)
