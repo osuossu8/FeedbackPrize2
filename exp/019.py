@@ -102,7 +102,7 @@ class CFG:
     freezing = True
     gradient_checkpoint = True
     # itpt_path = 'itpt/deberta_v3_large'
-    reinit_layers = 4 # 3
+    reinit_layers = 3
     # max_norm = 0.5
 
 
@@ -321,8 +321,8 @@ class FeedBackModel(nn.Module):
 
         self.cfg = CFG
         self.config = AutoConfig.from_pretrained(model_name)
-        #self.config.hidden_dropout_prob = 0
-        #self.config.attention_probs_dropout_prob = 0
+        self.config.hidden_dropout_prob = 0
+        self.config.attention_probs_dropout_prob = 0
         #print(self.config)
         self.model = AutoModel.from_pretrained(model_name, config=self.config)
 
@@ -564,8 +564,8 @@ def train_loop(fold):
     best_score = 100
 
     for epoch in range(CFG.epochs):
-        #if epoch == (CFG.epochs - 2):
-        #    break
+        if epoch == (CFG.epochs - 2):
+            break
 
         start_time = time.time()
 
