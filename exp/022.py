@@ -77,7 +77,7 @@ def get_score(outputs, labels):
 class CFG:
     EXP_ID = '022'
     apex = True
-    model = 'microsoft/deberta-v3-large'  # 'microsoft/deberta-v3-base'
+    model = 'facebook/bart-large' # 'microsoft/deberta-v3-large'  # 'microsoft/deberta-v3-base'
     seed = 71
     n_splits = 4
     max_len = 512
@@ -346,7 +346,7 @@ class FeedBackModel(nn.Module):
         # Freeze
         if self.cfg.freezing:
             freeze(self.model.embeddings) # fold0 0.6348
-            freeze(self.model.encoder.layer[:2])
+            # freeze(self.model.encoder.layer[:2])
 
         # Gradient Checkpointing
         #if self.cfg.gradient_checkpoint:
