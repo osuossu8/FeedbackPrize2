@@ -321,10 +321,10 @@ class FeedBackModel(nn.Module):
 
         self.cfg = CFG
         self.config = AutoConfig.from_pretrained(model_name)
-        #self.config.hidden_dropout_prob = 0
-        #self.config.attention_probs_dropout_prob = 0
-        self.num_hidden_layers = 12 # 24
-        self.num_attention_heads = 8 # 16
+        self.config.hidden_dropout_prob = 0
+        self.config.attention_probs_dropout_prob = 0
+        #self.num_hidden_layers = 6 # 12 # 24
+        #self.num_attention_heads = 2 # 8 # 16
         #print(self.config)
         self.model = AutoModel.from_pretrained(model_name, config=self.config)
 
@@ -344,19 +344,19 @@ class FeedBackModel(nn.Module):
 
 
         # Freeze
-        if self.cfg.freezing:
-            freeze(self.model.embeddings)
-            freeze(self.model.encoder.layer[:2])
+        #if self.cfg.freezing:
+        #    freeze(self.model.embeddings)
+        #    freeze(self.model.encoder.layer[:2])
 
         # Gradient Checkpointing
         #if self.cfg.gradient_checkpoint:
         #    self.model.gradient_checkpointing_enable() 
 
-        if self.cfg.reinit_layers > 0:
-            layers = self.model.encoder.layer[-self.cfg.reinit_layers:]
-            for layer in layers:
-                for module in layer.modules():
-                    self._init_weights(module)
+        #if self.cfg.reinit_layers > 0:
+        #    layers = self.model.encoder.layer[-self.cfg.reinit_layers:]
+        #    for layer in layers:
+        #        for module in layer.modules():
+        #            self._init_weights(module)
 
     def loss(self, outputs, targets):
         loss_fct = nn.CrossEntropyLoss()
