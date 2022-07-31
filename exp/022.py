@@ -77,7 +77,7 @@ def get_score(outputs, labels):
 class CFG:
     EXP_ID = '022'
     apex = True
-    model = 'facebook/bart-large' # 'microsoft/deberta-v3-large'  # 'microsoft/deberta-v3-base'
+    model = 'facebook/bart-base' # 'microsoft/deberta-v3-large'  # 'microsoft/deberta-v3-base'
     seed = 71
     n_splits = 4
     max_len = 512
