@@ -1,0 +1,59 @@
+-------------fold:0 training-------------
+-------------fold:0 training-------------
+Epoch 1 Step 1700 - avg_train_loss: 0.7361  avg_val_loss: 0.6849
+Epoch 1 Step 1700 - Score: 0.6849
+Epoch 1 Step 1700 - Save Best Score: 0.6849 Model
+Epoch 1 Step 3400 - avg_train_loss: 0.6799  avg_val_loss: 0.6407
+Epoch 1 Step 3400 - Score: 0.6407
+Epoch 1 Step 3400 - Save Best Score: 0.6407 Model
+Epoch 1 - avg_train_loss: 0.6791  avg_val_loss: 0.6407  time: 2352s
+Epoch 1 - Score: 0.6407
+========== fold: 0 result ==========
+Score: 0.6407
+-------------fold:1 training-------------
+-------------fold:0 training-------------
+Epoch 1 Step 1700 - avg_train_loss: 0.7011  avg_val_loss: 0.6575
+Epoch 1 Step 1700 - Score: 0.6575
+Epoch 1 Step 1700 - Save Best Score: 0.6575 Model
+Epoch 1 Step 3400 - avg_train_loss: 0.6508  avg_val_loss: 0.6270
+Epoch 1 Step 3400 - Score: 0.6270
+Epoch 1 Step 3400 - Save Best Score: 0.6270 Model
+Epoch 1 - avg_train_loss: 0.6498  avg_val_loss: 0.6270  time: 3328s
+Epoch 1 - Score: 0.6270
+========== fold: 0 result ==========
+Score: 0.6270
+-------------fold:1 training-------------
+Epoch 1 Step 1700 - avg_train_loss: 0.6962  avg_val_loss: 0.6621
+Epoch 1 Step 1700 - Score: 0.6621
+Epoch 1 Step 1700 - Save Best Score: 0.6621 Model
+Epoch 1 Step 3400 - avg_train_loss: 0.6397  avg_val_loss: 0.6460
+Epoch 1 Step 3400 - Score: 0.6460
+Epoch 1 Step 3400 - Save Best Score: 0.6460 Model
+Epoch 1 - avg_train_loss: 0.6385  avg_val_loss: 0.6460  time: 3314s
+Epoch 1 - Score: 0.6460
+========== fold: 1 result ==========
+Score: 0.6460
+-------------fold:2 training-------------
+Epoch 1 Step 1700 - avg_train_loss: 0.6987  avg_val_loss: 0.6504
+Epoch 1 Step 1700 - Score: 0.6504
+Epoch 1 Step 1700 - Save Best Score: 0.6504 Model
+Epoch 1 Step 3400 - avg_train_loss: 0.6496  avg_val_loss: 0.6329
+Epoch 1 Step 3400 - Score: 0.6329
+Epoch 1 Step 3400 - Save Best Score: 0.6329 Model
+Epoch 1 - avg_train_loss: 0.6477  avg_val_loss: 0.6329  time: 3321s
+Epoch 1 - Score: 0.6329
+========== fold: 2 result ==========
+Score: 0.6329
+-------------fold:3 training-------------
+Epoch 1 Step 1700 - avg_train_loss: 0.7096  avg_val_loss: 0.6638
+Epoch 1 Step 1700 - Score: 0.6638
+Epoch 1 Step 1700 - Save Best Score: 0.6638 Model
+Epoch 1 Step 3400 - avg_train_loss: 0.6579  avg_val_loss: 0.6555
+Epoch 1 Step 3400 - Score: 0.6555
+Epoch 1 Step 3400 - Save Best Score: 0.6555 Model
+Epoch 1 - avg_train_loss: 0.6570  avg_val_loss: 0.6555  time: 3328s
+Epoch 1 - Score: 0.6555
+========== fold: 3 result ==========
+Score: 0.6555
+========== CV ==========
+Score: 0.6403
