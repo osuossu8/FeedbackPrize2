@@ -1,0 +1,49 @@
+-------------fold:0 training-------------
+-------------fold:0 training-------------
+-------------fold:0 training-------------
+-------------fold:0 training-------------
+Epoch 1 Step 1700 - avg_train_loss: 0.8418  avg_val_loss: 0.7973
+Epoch 1 Step 1700 - Score: 0.7973
+Epoch 1 Step 1700 - Save Best Score: 0.7973 Model
+Epoch 1 Step 3400 - avg_train_loss: 0.7735  avg_val_loss: 0.7520
+Epoch 1 Step 3400 - Score: 0.7520
+Epoch 1 Step 3400 - Save Best Score: 0.7520 Model
+Epoch 1 - avg_train_loss: 0.7723  avg_val_loss: 0.7520  time: 924s
+Epoch 1 - Score: 0.7520
+========== fold: 0 result ==========
+Score: 0.7520
+-------------fold:1 training-------------
+Epoch 1 Step 1700 - avg_train_loss: 0.8381  avg_val_loss: 0.8508
+Epoch 1 Step 1700 - Score: 0.8508
+Epoch 1 Step 1700 - Save Best Score: 0.8508 Model
+Epoch 1 Step 3400 - avg_train_loss: 0.7794  avg_val_loss: 0.7338
+Epoch 1 Step 3400 - Score: 0.7338
+Epoch 1 Step 3400 - Save Best Score: 0.7338 Model
+Epoch 1 - avg_train_loss: 0.7787  avg_val_loss: 0.7338  time: 923s
+Epoch 1 - Score: 0.7338
+========== fold: 1 result ==========
+Score: 0.7338
+-------------fold:2 training-------------
+Epoch 1 Step 1700 - avg_train_loss: 0.8415  avg_val_loss: 0.7656
+Epoch 1 Step 1700 - Score: 0.7656
+Epoch 1 Step 1700 - Save Best Score: 0.7656 Model
+Epoch 1 Step 3400 - avg_train_loss: 0.7826  avg_val_loss: 0.7206
+Epoch 1 Step 3400 - Score: 0.7206
+Epoch 1 Step 3400 - Save Best Score: 0.7206 Model
+Epoch 1 - avg_train_loss: 0.7816  avg_val_loss: 0.7206  time: 924s
+Epoch 1 - Score: 0.7206
+========== fold: 2 result ==========
+Score: 0.7206
+-------------fold:3 training-------------
+Epoch 1 Step 1700 - avg_train_loss: 0.8388  avg_val_loss: 0.7631
+Epoch 1 Step 1700 - Score: 0.7631
+Epoch 1 Step 1700 - Save Best Score: 0.7631 Model
+Epoch 1 Step 3400 - avg_train_loss: 0.7757  avg_val_loss: 0.7164
+Epoch 1 Step 3400 - Score: 0.7164
+Epoch 1 Step 3400 - Save Best Score: 0.7164 Model
+Epoch 1 - avg_train_loss: 0.7745  avg_val_loss: 0.7164  time: 925s
+Epoch 1 - Score: 0.7164
+========== fold: 3 result ==========
+Score: 0.7164
+========== CV ==========
+Score: 0.7307
