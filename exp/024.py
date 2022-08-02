@@ -85,12 +85,12 @@ class CFG:
     target_size=3
     n_accumulate=1
     print_freq = 100
-    eval_freq = 1700 # 1200
+    eval_freq = 850 # 1700 # 1200
     min_lr=1e-6
     scheduler = 'cosine'
-    batch_size = 8 # 16 # 8
+    batch_size = 16 # 8
     num_workers = 3
-    lr = 5e-6 # 3e-6
+    lr = 8e-6 # 5e-6 # 3e-6
     weigth_decay = 0.01
     epochs = 4 # 5 # 4
     n_fold = 4
@@ -344,8 +344,8 @@ class FeedBackModel(nn.Module):
 
 
         # Freeze
-        if self.cfg.freezing:
-            freeze(self.model.embeddings)
+        #if self.cfg.freezing:
+        #    freeze(self.model.embeddings)
             # freeze(self.model.encoder.layer[:2])
 
         # Gradient Checkpointing
@@ -587,7 +587,7 @@ def train_loop(fold):
     best_score = 100
 
     for epoch in range(CFG.epochs):
-        if epoch == (CFG.epochs - 3):
+        if epoch == (CFG.epochs - 2):
             break
 
         start_time = time.time()
