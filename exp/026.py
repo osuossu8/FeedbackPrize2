@@ -77,7 +77,7 @@ def get_score(outputs, labels):
 class CFG:
     EXP_ID = '026'
     apex = True
-    model = 'google/electra-large-generator' # 'microsoft/deberta-v3-large'  # 'microsoft/deberta-v3-base'
+    model = 'google/electra-large-discriminator' # 'google/electra-large-generator' # 'microsoft/deberta-v3-large'  # 'microsoft/deberta-v3-base'
     seed = 71
     n_splits = 4
     max_len = 512
@@ -90,7 +90,7 @@ class CFG:
     scheduler = 'cosine'
     batch_size = 8 # 16 # 8
     num_workers = 3
-    lr = 5e-6 # 3e-6
+    lr = 5e-6
     weigth_decay = 0.01
     epochs = 4 # 5 # 4
     n_fold = 4
