@@ -415,7 +415,7 @@ class FeedBackModel(nn.Module):
 #         sequence_output = self.pooler(all_hidden_states)
 
         # simple CLS
-        sequence_output = transformer_out[0][:, 0, :]
+        sequence_output = transformer_out[0]#[:, 0, :]
 
 
         # Main task
@@ -425,9 +425,9 @@ class FeedBackModel(nn.Module):
         #logits4 = self.output(self.dropout4(sequence_output))
         #logits5 = self.output(self.dropout5(sequence_output))
         #logits = (logits1 + logits2 + logits3 + logits4 + logits5) / 5
-
+        
         logits = self.output(sequence_output)
-
+        
         #if targets is not None:
         #    metric = self.monitor_metrics(logits, targets)
         #    return logits, metric
