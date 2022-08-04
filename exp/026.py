@@ -90,7 +90,7 @@ class CFG:
     scheduler = 'cosine'
     batch_size = 8 # 16 # 8
     num_workers = 3
-    lr = 5e-6
+    lr = 8e-6 # 5e-6
     weigth_decay = 0.01
     epochs = 4 # 5 # 4
     n_fold = 4
