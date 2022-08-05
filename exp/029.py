@@ -88,7 +88,7 @@ class CFG:
     eval_freq = 1700 # 1200
     min_lr=1e-6
     scheduler = 'cosine'
-    batch_size = 8 # 16 # 8
+    batch_size = 4 # 8 # 16 # 8
     num_workers = 3
     lr = 8e-6 # 5e-6 # 3e-6
     weigth_decay = 0.01
@@ -588,7 +588,7 @@ def train_loop(fold):
     best_score = 100
 
     for epoch in range(CFG.epochs):
-        if epoch == (CFG.epochs - 2):
+        if epoch == (CFG.epochs - 3):
             break
 
         start_time = time.time()
