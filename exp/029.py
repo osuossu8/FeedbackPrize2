@@ -77,7 +77,7 @@ def get_score(outputs, labels):
 class CFG:
     EXP_ID = '029'
     apex = True
-    model = 'alberta-xxlarge-v2' # 'microsoft/deberta-v3-base'  # 'microsoft/deberta-v3-base'
+    model = 'albert-xxlarge-v2' # 'microsoft/deberta-v3-base'  # 'microsoft/deberta-v3-base'
     seed = 71
     n_splits = 4
     max_len = 512
