@@ -415,7 +415,7 @@ class FeedBackModel(nn.Module):
 #         sequence_output = self.pooler(all_hidden_states)
 
         # simple CLS
-        sequence_output = transformer_out[0]#[:, 0, :]
+        sequence_output = transformer_out[0][:, -4:, :] #[:, 0, :]
 
 
         # Main task
