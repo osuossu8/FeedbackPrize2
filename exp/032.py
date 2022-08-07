@@ -77,7 +77,7 @@ def get_score(outputs, labels):
 class CFG:
     EXP_ID = '032'
     apex = True
-    model = 'gpt2-medium' # 'microsoft/deberta-v3-large'  # 'microsoft/deberta-v3-base'
+    model = 'microsoft/mpnet-base' # 'microsoft/deberta-v3-large'  # 'microsoft/deberta-v3-base'
     seed = 71
     n_splits = 4
     max_len = 512
