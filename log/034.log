@@ -1,0 +1,48 @@
+-------------fold:0 training-------------
+-------------fold:0 training-------------
+-------------fold:0 training-------------
+Epoch 1 Step 1700 - avg_train_loss: 0.7436  avg_val_loss: 0.6968
+Epoch 1 Step 1700 - Score: 0.6968
+Epoch 1 Step 1700 - Save Best Score: 0.6968 Model
+Epoch 1 Step 3400 - avg_train_loss: 0.6951  avg_val_loss: 0.6773
+Epoch 1 Step 3400 - Score: 0.6773
+Epoch 1 Step 3400 - Save Best Score: 0.6773 Model
+Epoch 1 - avg_train_loss: 0.6936  avg_val_loss: 0.6773  time: 1208s
+Epoch 1 - Score: 0.6773
+========== fold: 0 result ==========
+Score: 0.6773
+-------------fold:1 training-------------
+Epoch 1 Step 1700 - avg_train_loss: 0.7424  avg_val_loss: 0.7000
+Epoch 1 Step 1700 - Score: 0.7000
+Epoch 1 Step 1700 - Save Best Score: 0.7000 Model
+Epoch 1 Step 3400 - avg_train_loss: 0.6956  avg_val_loss: 0.6789
+Epoch 1 Step 3400 - Score: 0.6789
+Epoch 1 Step 3400 - Save Best Score: 0.6789 Model
+Epoch 1 - avg_train_loss: 0.6943  avg_val_loss: 0.6789  time: 1208s
+Epoch 1 - Score: 0.6789
+========== fold: 1 result ==========
+Score: 0.6789
+-------------fold:2 training-------------
+Epoch 1 Step 1700 - avg_train_loss: 0.7525  avg_val_loss: 0.7260
+Epoch 1 Step 1700 - Score: 0.7260
+Epoch 1 Step 1700 - Save Best Score: 0.7260 Model
+Epoch 1 Step 3400 - avg_train_loss: 0.7039  avg_val_loss: 0.6622
+Epoch 1 Step 3400 - Score: 0.6622
+Epoch 1 Step 3400 - Save Best Score: 0.6622 Model
+Epoch 1 - avg_train_loss: 0.7032  avg_val_loss: 0.6622  time: 1206s
+Epoch 1 - Score: 0.6622
+========== fold: 2 result ==========
+Score: 0.6622
+-------------fold:3 training-------------
+Epoch 1 Step 1700 - avg_train_loss: 0.7463  avg_val_loss: 0.6867
+Epoch 1 Step 1700 - Score: 0.6867
+Epoch 1 Step 1700 - Save Best Score: 0.6867 Model
+Epoch 1 Step 3400 - avg_train_loss: 0.6975  avg_val_loss: 0.6845
+Epoch 1 Step 3400 - Score: 0.6845
+Epoch 1 Step 3400 - Save Best Score: 0.6845 Model
+Epoch 1 - avg_train_loss: 0.6964  avg_val_loss: 0.6845  time: 1206s
+Epoch 1 - Score: 0.6845
+========== fold: 3 result ==========
+Score: 0.6845
+========== CV ==========
+Score: 0.6757
