@@ -77,7 +77,7 @@ def get_score(outputs, labels):
 class CFG:
     EXP_ID = '036'
     apex = True
-    model = 'cross-encoder/nli-deberta-v3-large'
+    model = 'microsoft/deberta-large' # 'cross-encoder/nli-deberta-v3-large'
     seed = 71
     n_splits = 4
     max_len = 512
