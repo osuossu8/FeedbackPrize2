@@ -88,7 +88,7 @@ class CFG:
     eval_freq = 1700 # 1200
     min_lr=1e-6
     scheduler = 'cosine'
-    batch_size = 8 # 16 # 8
+    batch_size = 6 # 8 # 16 # 8
     num_workers = 3
     lr = 5e-6 # 3e-6
     weigth_decay = 0.01
